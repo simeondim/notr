@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notr/managers/configuration_manager.dart';
-import 'package:notr/views/pages/loading_page.dart';
+import 'package:notr/views/pages/loading_page/loading_page.dart';
 
 class AppSetup extends StatefulWidget {
   const AppSetup({required this.configManager, super.key});

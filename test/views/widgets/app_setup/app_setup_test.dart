@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:notr/managers/configuration_manager.dart';
-import 'package:notr/views/pages/loading_page.dart';
+import 'package:notr/views/pages/loading_page/loading_page.dart';
 import 'package:notr/views/widgets/app_setup/app_setup.dart';
 
 import 'app_setup_test.mocks.dart';
