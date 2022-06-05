@@ -8,6 +8,10 @@ import 'package:flutter/services.dart';
 import 'package:notr/models/fatal_error.dart';
 import 'package:notr/services/util/log_error.dart';
 
+/// This is the entry point of the application.
+/// [configure] must be called first in order to show the initial [Widget] and
+/// configure error handling.
+/// [initialize] must be called before any other services.
 class ConfigurationManager {
   static ConfigurationManager? _instance;
 
@@ -35,11 +39,9 @@ class ConfigurationManager {
     WidgetsFlutterBinding.ensureInitialized();
 
     runZonedGuarded(
-      () async {
-        runApp(widget);
-      },
+      () => runApp(widget),
       (error, stack) async {
-        if (!_isInitialized && kDebugMode) {
+        if (!_isInitialized) {
           debugPrint(
             "Application is not initialized. Call ConfigurationManager.initialize().",
           );
