@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notr/managers/configuration_manager.dart';
 import 'package:notr/views/pages/loading_page/loading_page.dart';
+import 'package:notr/views/pages/welcome_page/welcome_page.dart';
+import 'package:notr/views/widgets/app_theme/app_theme.dart';
 
 class AppSetup extends StatefulWidget {
   const AppSetup({required this.configManager, super.key});
@@ -33,10 +35,11 @@ class _AppSetupState extends State<AppSetup> {
       );
     }
 
-    return const MaterialApp(
-      key: Key('mainMaterialApp'),
+    return MaterialApp(
+      key: const Key('mainMaterialApp'),
       debugShowCheckedModeBanner: false,
-      home: SizedBox(),
+      theme: const AppTheme().getThemeData(),
+      home: const WelcomePage(),
     );
   }
 }
