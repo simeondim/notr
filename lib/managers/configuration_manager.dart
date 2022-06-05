@@ -5,22 +5,24 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:notr/firebase_options.dart';
 import 'package:notr/models/fatal_error.dart';
 import 'package:notr/services/util/log_error.dart';
 
 /// This is the entry point of the application.
-/// [configure] must be called first in order to show the initial [Widget] and
+/// [startApp] must be called first in order to show the initial [Widget] and
 /// configure error handling.
 /// [initialize] must be called before any other services.
 class ConfigurationManager {
   static ConfigurationManager? _instance;
 
   factory ConfigurationManager({
-    required FirebaseOptions firebaseOptions,
+    FirebaseOptions? firebaseOptions,
     String? firebaseAppName,
   }) {
     return _instance ??= ConfigurationManager._(
-      firebaseOptions: firebaseOptions,
+      firebaseOptions:
+          firebaseOptions ?? DefaultFirebaseOptions.currentPlatform,
       firebaseAppName: firebaseAppName,
     );
   }
@@ -35,7 +37,7 @@ class ConfigurationManager {
 
   bool _isInitialized = false;
 
-  void configure(Widget widget) {
+  void startApp(Widget widget) {
     WidgetsFlutterBinding.ensureInitialized();
 
     runZonedGuarded(

@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:notr/firebase_options.dart';
+import 'package:notr/managers/configuration_manager.dart';
+import 'package:notr/views/widgets/app_setup/app_setup.dart';
 
 void main() {
-  runApp(const MyApp());
+  final configManager = ConfigurationManager(
+    firebaseOptions: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  configManager.startApp(const AppSetup());
 }
 
 class MyApp extends StatelessWidget {
