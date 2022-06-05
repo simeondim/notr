@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "5568802205",
+    "project_id": "notr-dev",
+    "storage_bucket": "notr-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5568802205:android:14aedc955df1b049549374",
+        "android_client_info": {
+          "package_name": "com.simeon.notr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "5568802205-fe3pvegl13lnpjp0cst8fav54fsr43gv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3LF0ItZTVzMvHyXm9TWiLtnSlhJ-jn_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "5568802205-fe3pvegl13lnpjp0cst8fav54fsr43gv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
