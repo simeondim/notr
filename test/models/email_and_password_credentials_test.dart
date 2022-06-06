@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:notr/models/email_and_password_credentials.dart';
+import 'package:notr/models/failures/empty_input.dart';
+import 'package:notr/models/failures/failure.dart';
 import 'package:notr/models/failures/invalid_email.dart';
 import 'package:notr/models/failures/invalid_password.dart';
 import 'package:notr/models/failures/with_sub_failure.dart';
-
-import '../services/util/error_handler_test.dart';
 
 main() {
   group(
@@ -20,11 +20,13 @@ main() {
 
           final failure = credentials.validate();
 
-          expect(failure, isA<InvalidEmail>());
+          expect(failure.runtimeType, isNot(Failure));
+          expect(failure.runtimeType, InvalidEmail);
 
           failure as WithSubFailure;
 
-          expect(failure.subFailure, isA<EmptyInput>);
+          expect(failure.subFailure.runtimeType, isNot(InvalidEmail));
+          expect(failure.subFailure.runtimeType, EmptyInput);
         },
       );
 
@@ -38,11 +40,13 @@ main() {
 
           final failure = credentials.validate();
 
-          expect(failure, isA<InvalidPassword>());
+          expect(failure.runtimeType, isNot(Failure));
+          expect(failure.runtimeType, InvalidPassword);
 
           failure as WithSubFailure;
 
-          expect(failure.subFailure, isA<EmptyInput>());
+          expect(failure.subFailure.runtimeType, isNot(InvalidPassword));
+          expect(failure.subFailure.runtimeType, EmptyInput);
         },
       );
 

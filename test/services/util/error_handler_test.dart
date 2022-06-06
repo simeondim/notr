@@ -11,14 +11,14 @@ class MockNullFailureManager implements FailureManager {
   }
 }
 
-class EmptyInput implements Failure {
-  const EmptyInput();
+class MockEmptyInput implements Failure {
+  const MockEmptyInput();
 }
 
 class MockEmptyInputFailureManager implements FailureManager {
   @override
   Failure? getFailure(Object error) {
-    return const EmptyInput();
+    return const MockEmptyInput();
   }
 }
 
@@ -31,7 +31,6 @@ main() {
     () async {
       final either = await errorHandler<bool>(() async => true);
 
-      expect(either.returnedValue, isA<bool>());
       expect(either.returnedValue, isTrue);
     },
   );
@@ -46,7 +45,7 @@ main() {
         ],
       );
 
-      expect(either.returnedValue, isA<UnknownFailure>());
+      expect(either.returnedValue.runtimeType, UnknownFailure);
     },
   );
 
@@ -60,7 +59,7 @@ main() {
         ],
       );
 
-      expect(either.returnedValue, isA<EmptyInput>());
+      expect(either.returnedValue.runtimeType, MockEmptyInput);
     },
   );
 }
