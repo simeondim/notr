@@ -4,7 +4,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:notr/models/email_and_password_credentials.dart';
 import 'package:notr/models/failures/failure.dart';
-import 'package:notr/models/failures/unknown_failure.dart';
+import 'package:notr/models/failures/unknown.dart';
 import 'package:notr/repository/authentication_repository.dart';
 import 'package:notr/services/authentication_service.dart';
 
@@ -27,15 +27,14 @@ main() {
         email: "test@test.com",
         password: "testpass",
       );
-      test("should return UnknownFailure when repo throws not known error",
-          () async {
+      test("should return Unknown when repo throws not known error", () async {
         when(authRepo.signInWithEmailAndPassword(credentials)).thenAnswer(
           (_) => throw Object(),
         );
 
         final result = await service.signInWithEmailAndPassword(credentials);
 
-        expect(result.value.runtimeType, UnknownFailure);
+        expect(result.value.runtimeType, Unknown);
       });
       test("should return UserCredential on success", () async {
         when(authRepo.signInWithEmailAndPassword(credentials)).thenAnswer(

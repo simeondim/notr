@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:notr/models/failure_manager.dart';
 import 'package:notr/models/failures/failure.dart';
-import 'package:notr/models/failures/unknown_failure.dart';
+import 'package:notr/models/failures/unknown.dart';
 import 'package:notr/services/util/error_handler.dart';
 
 class MockNullFailureManager implements FailureManager {
@@ -36,7 +36,7 @@ main() {
   );
 
   test(
-    "should return UnknownFailure when managers cannot deal with the error",
+    "should return Unknown when managers cannot deal with the error",
     () async {
       final either = await errorHandler<bool>(
         () => throw Object(),
@@ -45,7 +45,7 @@ main() {
         ],
       );
 
-      expect(either.value.runtimeType, UnknownFailure);
+      expect(either.value.runtimeType, Unknown);
     },
   );
 

@@ -5,7 +5,7 @@ import 'package:notr/models/failures/invalid_email.dart';
 import 'package:notr/models/failures/invalid_password.dart';
 import 'package:notr/models/failures/not_available.dart';
 import 'package:notr/models/failures/not_valid.dart';
-import 'package:notr/models/failures/unknown_failure.dart';
+import 'package:notr/models/failures/unknown.dart';
 import 'package:notr/models/failures/with_sub_failure.dart';
 
 void main() {
@@ -40,7 +40,7 @@ void main() {
   );
 
   test(
-    "Should return InvalidEmail with UnknownFailure subfailure on 'user-not-found' code",
+    "Should return InvalidEmail with Unknown subfailure on 'user-not-found' code",
     () {
       final exception = FirebaseAuthException(code: 'user-not-found');
       final failure = failureManager.getFailure(exception);
@@ -49,7 +49,7 @@ void main() {
 
       failure as WithSubFailure;
 
-      expect(failure.subFailure.runtimeType, UnknownFailure);
+      expect(failure.subFailure.runtimeType, Unknown);
     },
   );
 

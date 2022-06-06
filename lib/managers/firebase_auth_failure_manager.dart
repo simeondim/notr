@@ -6,7 +6,7 @@ import 'package:notr/models/failures/invalid_email.dart';
 import 'package:notr/models/failures/invalid_password.dart';
 import 'package:notr/models/failures/not_available.dart';
 import 'package:notr/models/failures/not_valid.dart';
-import 'package:notr/models/failures/unknown_failure.dart';
+import 'package:notr/models/failures/unknown.dart';
 
 class FirebaseAuthFailureManager implements FailureManager {
   @override
@@ -31,7 +31,7 @@ class FirebaseAuthFailureManager implements FailureManager {
     }
 
     if (error.code == 'user-not-found') {
-      return const InvalidEmail(UnknownFailure());
+      return const InvalidEmail(Unknown());
     }
 
     if (error.code == 'wrong-password') {
