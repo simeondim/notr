@@ -8,6 +8,7 @@ import 'package:notr/models/failures/empty_input.dart';
 import 'package:notr/models/failures/failure.dart';
 import 'package:notr/models/failures/invalid_email.dart';
 import 'package:notr/models/failures/invalid_password.dart';
+import 'package:notr/models/failures/unknown.dart';
 import 'package:notr/services/authentication_service.dart';
 import 'package:notr/views/pages/login_page/login_page_controller.dart';
 import 'package:notr/views/pages/login_page/login_page_state.dart';
@@ -70,6 +71,20 @@ main() {
 
         expect(state.passwordFieldErrorText, isNotNull);
         expect(state.passwordFieldErrorText, isA<String>());
+      });
+
+      test(
+          'should change unknownErrorMessage if service returns Unknown failure',
+          () async {
+        final signInWithPass = authRepo.signInWithEmailAndPassword(credentials);
+        final value = Left<Failure, UserCredential>(const Unknown());
+
+        when(signInWithPass).thenAnswer((_) async => value);
+
+        await controller.login(state);
+
+        expect(state.unknownErrorMessage, isNotNull);
+        expect(state.unknownErrorMessage, isA<String>());
       });
     },
   );

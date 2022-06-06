@@ -22,6 +22,13 @@ class LoginPageState extends ChangeNotifier {
     notifyListeners();
   }
 
+  String? _unknownErrorMessage;
+  String? get unknownErrorMessage => _unknownErrorMessage;
+  set unknownErrorMessage(String? unknownErrorMessage) {
+    _unknownErrorMessage = unknownErrorMessage;
+    notifyListeners();
+  }
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
