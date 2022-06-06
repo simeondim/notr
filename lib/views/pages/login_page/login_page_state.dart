@@ -8,6 +8,20 @@ class LoginPageState extends ChangeNotifier {
     notifyListeners();
   }
 
+  String? _emailFieldErrorText;
+  String? get emailFieldErrorText => _emailFieldErrorText;
+  set emailFieldErrorText(String? emailFieldErrorText) {
+    _emailFieldErrorText = emailFieldErrorText;
+    notifyListeners();
+  }
+
+  String? _passwordFieldErrorText;
+  String? get passwordFieldErrorText => _passwordFieldErrorText;
+  set passwordFieldErrorText(String? passwordFieldErrorText) {
+    _passwordFieldErrorText = passwordFieldErrorText;
+    notifyListeners();
+  }
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
