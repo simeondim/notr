@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:notr/managers/firebase_auth_failure_manager.dart';
 import 'package:notr/models/either.dart';
 import 'package:notr/models/email_and_password_credentials.dart';
 import 'package:notr/models/failures/failure.dart';
@@ -15,11 +16,16 @@ class AuthenticationService {
   Future<Either<Failure, UserCredential>> signInWithEmailAndPassword(
     EmailAndPasswordCredentials credentials,
   ) async {
-    return errorHandler(() async {
-      final failure = credentials.validate();
-      if (failure != null) throw failure;
+    return errorHandler(
+      () async {
+        final failure = credentials.validate();
+        if (failure != null) throw failure;
 
-      return await _authRepo.signInWithEmailAndPassword(credentials);
-    });
+        return await _authRepo.signInWithEmailAndPassword(credentials);
+      },
+      failureManagers: [
+        FirebaseAuthFailureManager(),
+      ],
+    );
   }
 }

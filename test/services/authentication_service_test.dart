@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:notr/models/email_and_password_credentials.dart';
-import 'package:notr/models/failures/failure.dart';
+import 'package:notr/models/failures/invalid_email.dart';
 import 'package:notr/models/failures/unknown.dart';
 import 'package:notr/repository/authentication_repository.dart';
 import 'package:notr/services/authentication_service.dart';
@@ -46,17 +46,22 @@ main() {
         expect(result.value, isA<UserCredential>());
       });
 
-      test("should return Failure if invalid credentials are provided",
+      test(
+          "should return InvalidEmail if repository throws FirebaseAuthException",
           () async {
         const invalidCredentials = EmailAndPasswordCredentials(
-          email: "",
-          password: "",
+          email: "test@test.com",
+          password: "testpass",
+        );
+
+        when(authRepo.signInWithEmailAndPassword(credentials)).thenAnswer(
+          (_) async => throw FirebaseAuthException(code: 'invalid-email'),
         );
 
         final result =
             await service.signInWithEmailAndPassword(invalidCredentials);
 
-        expect(result.value, isA<Failure>());
+        expect(result.value.runtimeType, InvalidEmail);
       });
     },
   );
