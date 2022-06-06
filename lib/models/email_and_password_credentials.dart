@@ -1,4 +1,7 @@
+import 'package:notr/models/failures/empty_input.dart';
 import 'package:notr/models/failures/failure.dart';
+import 'package:notr/models/failures/invalid_email.dart';
+import 'package:notr/models/failures/invalid_password.dart';
 import 'package:notr/models/with_validation.dart';
 
 class EmailAndPasswordCredentials implements WithValidation {
@@ -12,7 +15,10 @@ class EmailAndPasswordCredentials implements WithValidation {
 
   @override
   Failure? validate() {
-    // TODO: implement validate
-    throw UnimplementedError();
+    if (email.isEmpty) return InvalidEmail(EmptyInput());
+
+    if (password.isEmpty) return InvalidPassword(EmptyInput());
+
+    return null;
   }
 }

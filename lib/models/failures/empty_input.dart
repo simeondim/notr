@@ -1,3 +1,5 @@
 import 'package:notr/models/failures/failure.dart';
 
-class EmptyInput implements Failure {}
+class EmptyInput implements Failure {
+  const EmptyInput();
+}
