@@ -4,11 +4,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:notr/firebase_options.dart';
+import 'package:notr/managers/application_error_manager.dart';
 import 'package:notr/models/fatal_error.dart';
 
-/// Defines the way application is started and exited on error.
+/// Defines the way application is started and how error are managed.
 /// [startApp] must be called first in order to show the initial [Widget] and
 /// configure error handling.
 /// [initialize] must be called before any other services.
@@ -46,34 +46,13 @@ class ConfigurationManager {
   }
 
   void _handleError(Object error, StackTrace stack) {
-    if (kDebugMode) {
-      debugPrint('-------------------- ERROR LOG -----------------------');
-      debugPrint('ERROR: $error');
-      debugPrintStack(stackTrace: stack);
-      debugPrint('----------------------- END --------------------------');
-    }
-
     if (!_isInitialized) {
       debugPrint(
         "App is not initialized. Call ConfigurationManager.initialize().",
       );
     }
 
-    if (!kDebugMode) {
-      FirebaseCrashlytics.instance.recordError(
-        error,
-        stack,
-        fatal: error is FatalError,
-      );
-    }
-
-    if (error is FatalError) _exitApp();
-  }
-
-// TODO: Wipe app data before exiting.
-  void _exitApp() {
-    // This method is like exit(0) - it basically closes the app.
-    SystemNavigator.pop(animated: true);
+    ApplicationErrorManager().handleError(error, stack);
   }
 
   Future<void> initialize({
