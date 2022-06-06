@@ -15,9 +15,9 @@ class EmailAndPasswordCredentials implements WithValidation {
 
   @override
   Failure? validate() {
-    if (email.isEmpty) return InvalidEmail(EmptyInput());
+    if (email.isEmpty) return const InvalidEmail(EmptyInput());
 
-    if (password.isEmpty) return InvalidPassword(EmptyInput());
+    if (password.isEmpty) return const InvalidPassword(EmptyInput());
 
     return null;
   }
