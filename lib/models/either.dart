@@ -12,7 +12,7 @@ abstract class Either<L, R> {
   bool get isLeft => this is Left<L, R>;
   bool get isRight => this is Right<L, R>;
 
-  Object get result;
+  Object get returnedValue;
 
   Z fold<Z>(Z Function(L) onLeft, Z Function(R) onRight);
 
@@ -36,7 +36,7 @@ class Left<L, R> extends Either<L, R> {
   final L value;
 
   @override
-  Object get result => value as Object;
+  Object get returnedValue => value as Object;
 
   @override
   Z fold<Z>(Z Function(L) onLeft, Z Function(R) onRight) => onLeft(value);
@@ -48,7 +48,7 @@ class Right<L, R> extends Either<L, R> {
   final R value;
 
   @override
-  Object get result => value as Object;
+  Object get returnedValue => value as Object;
 
   @override
   Z fold<Z>(Z Function(L) onLeft, Z Function(R) onRight) => onRight(value);
