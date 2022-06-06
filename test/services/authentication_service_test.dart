@@ -44,6 +44,19 @@ main() {
 
         expect(result.returnedValue, isA<UserCredential>);
       });
+
+      test("should return Failure if invalid credentials are provided",
+          () async {
+        const invalidCredentials = EmailAndPasswordCredentials(
+          email: "",
+          password: "",
+        );
+
+        final result =
+            await service.signInWithEmailAndPassword(invalidCredentials);
+
+        expect(result.returnedValue, isA<Failure>);
+      });
     },
   );
 }
