@@ -7,9 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:notr/firebase_options.dart';
 import 'package:notr/models/fatal_error.dart';
-import 'package:notr/services/util/log_error.dart';
 
-/// This is the entry point of the application.
+/// Defines the way application is started and exited on error.
 /// [startApp] must be called first in order to show the initial [Widget] and
 /// configure error handling.
 /// [initialize] must be called before any other services.
@@ -42,22 +41,43 @@ class ConfigurationManager {
 
     runZonedGuarded(
       () => runApp(widget),
-      (error, stack) async {
-        if (!_isInitialized) {
-          debugPrint(
-            "Application is not initialized. Call ConfigurationManager.initialize().",
-          );
-        }
-
-        if (error is FatalError) _exitApp();
-
-        logError(error, stack);
-      },
+      _handleError,
     );
   }
 
+  void _handleError(Object error, StackTrace stack) {
+    if (kDebugMode) {
+      debugPrint('-------------------- ERROR LOG -----------------------');
+      debugPrint('ERROR: $error');
+      debugPrintStack(stackTrace: stack);
+      debugPrint('----------------------- END --------------------------');
+    }
+
+    if (!_isInitialized) {
+      debugPrint(
+        "App is not initialized. Call ConfigurationManager.initialize().",
+      );
+    }
+
+    if (!kDebugMode) {
+      FirebaseCrashlytics.instance.recordError(
+        error,
+        stack,
+        fatal: error is FatalError,
+      );
+    }
+
+    if (error is FatalError) _exitApp();
+  }
+
+// TODO: Wipe app data before exiting.
+  void _exitApp() {
+    // This method is like exit(0) - it basically closes the app.
+    SystemNavigator.pop(animated: true);
+  }
+
   Future<void> initialize({
-    bool allowDataCollection = true,
+    bool enabledDataCollection = true,
   }) async {
     try {
       await Firebase.initializeApp(
@@ -66,25 +86,15 @@ class ConfigurationManager {
       );
 
       // Disable data collection in debug mode or user disables it.
-      if (kDebugMode || !allowDataCollection) {
+      if (kDebugMode || !enabledDataCollection) {
         FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
       }
 
-      FlutterError.onError =
-          FirebaseCrashlytics.instance.recordFlutterFatalError;
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
       _isInitialized = true;
     } catch (error, stack) {
       throw FatalError(error, stack);
     }
-  }
-
-  Future<void> _exitApp() async {
-    Future.delayed(
-      const Duration(seconds: 2),
-
-      // This method is like exit(0) - it basically closes the app.
-      () => SystemNavigator.pop(animated: true),
-    );
   }
 }

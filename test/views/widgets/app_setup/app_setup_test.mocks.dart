@@ -39,10 +39,10 @@ class MockConfigurationManager extends _i1.Mock
       super.noSuchMethod(Invocation.method(#startApp, [widget]),
           returnValueForMissingStub: null);
   @override
-  _i5.Future<void> initialize({bool? allowDataCollection = true}) =>
+  _i5.Future<void> initialize({bool? enabledDataCollection = true}) =>
       (super.noSuchMethod(
           Invocation.method(
-              #initialize, [], {#allowDataCollection: allowDataCollection}),
+              #initialize, [], {#allowDataCollection: enabledDataCollection}),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
 }
