@@ -42,7 +42,7 @@ class MockConfigurationManager extends _i1.Mock
   _i5.Future<void> initialize({bool? enabledDataCollection = true}) =>
       (super.noSuchMethod(
           Invocation.method(
-              #initialize, [], {#allowDataCollection: enabledDataCollection}),
+              #initialize, [], {#enabledDataCollection: enabledDataCollection}),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
 }
