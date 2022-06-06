@@ -43,12 +43,3 @@ class MockAuthenticationService extends _i1.Mock
                           _FakeEither_0<_i5.Failure, _i6.UserCredential>()))
               as _i4.Future<_i2.Either<_i5.Failure, _i6.UserCredential>>);
 }
-
-/// A class which mocks [UserCredential].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockUserCredential extends _i1.Mock implements _i6.UserCredential {
-  MockUserCredential() {
-    _i1.throwOnMissingStub(this);
-  }
-}
