@@ -23,9 +23,8 @@ main() {
           expect(failure.runtimeType, isNot(Failure));
           expect(failure.runtimeType, InvalidEmail);
 
-          failure as WithSubFailure;
+          failure as InvalidEmail;
 
-          expect(failure.subFailure.runtimeType, isNot(InvalidEmail));
           expect(failure.subFailure.runtimeType, EmptyInput);
         },
       );
@@ -45,7 +44,6 @@ main() {
 
           failure as WithSubFailure;
 
-          expect(failure.subFailure.runtimeType, isNot(InvalidPassword));
           expect(failure.subFailure.runtimeType, EmptyInput);
         },
       );
