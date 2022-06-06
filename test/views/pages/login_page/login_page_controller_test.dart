@@ -7,6 +7,7 @@ import 'package:notr/models/failures/empty_input.dart';
 import 'package:notr/models/failures/failure.dart';
 import 'package:notr/models/failures/invalid_email.dart';
 import 'package:notr/models/failures/invalid_password.dart';
+import 'package:notr/models/failures/not_valid.dart';
 import 'package:notr/models/failures/unknown.dart';
 import 'package:notr/services/authentication_service.dart';
 import 'package:notr/views/pages/login_page/login_page_controller.dart';
@@ -30,12 +31,12 @@ main() {
     "login",
     () {
       test("should change isLoading state to true", () {
-        final serviceMethod = authService.signInWithEmailAndPassword(any);
         final returnValue = Left<Failure, UserCredential>(
           const InvalidEmail(EmptyInput()),
         );
 
-        when(serviceMethod).thenAnswer((_) async => returnValue);
+        when(authService.signInWithEmailAndPassword(any))
+            .thenAnswer((_) async => returnValue);
 
         expect(state.isLoading, isFalse);
 
@@ -47,13 +48,12 @@ main() {
       test(
           'should change emailFieldErrorText to string if service returns InvalidEmail',
           () async {
-        final serviceMethod = authService.signInWithEmailAndPassword(any);
-
         final returnValue = Left<Failure, UserCredential>(
           const InvalidEmail(EmptyInput()),
         );
 
-        when(serviceMethod).thenAnswer((_) async => returnValue);
+        when(authService.signInWithEmailAndPassword(any))
+            .thenAnswer((_) async => returnValue);
 
         expect(state.emailFieldErrorText, isNot(String));
 
@@ -65,12 +65,12 @@ main() {
       test(
           'should change passwordTextField to string if service returns InvalidPassword',
           () async {
-        final serviceMethod = authService.signInWithEmailAndPassword(any);
         final returnValue = Left<Failure, UserCredential>(
-          const InvalidPassword(EmptyInput()),
+          const InvalidPassword(NotValid()),
         );
 
-        when(serviceMethod).thenAnswer((_) async => returnValue);
+        when(authService.signInWithEmailAndPassword(any))
+            .thenAnswer((_) async => returnValue);
 
         expect(state.passwordFieldErrorText, isNot(String));
 
@@ -82,10 +82,10 @@ main() {
       test(
           'should change unknownErrorMessage if service returns Unknown failure',
           () async {
-        final serviceMethod = authService.signInWithEmailAndPassword(any);
         final returnValue = Left<Failure, UserCredential>(const Unknown());
 
-        when(serviceMethod).thenAnswer((_) async => returnValue);
+        when(authService.signInWithEmailAndPassword(any))
+            .thenAnswer((_) async => returnValue);
 
         expect(state.unknownErrorMessage, isNot(String));
 
