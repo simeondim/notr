@@ -35,7 +35,7 @@ main() {
 
         final result = await service.signInWithEmailAndPassword(credentials);
 
-        expect(result.returnedValue.runtimeType, UnknownFailure);
+        expect(result.value.runtimeType, UnknownFailure);
       });
       test("should return UserCredential on success", () async {
         when(authRepo.signInWithEmailAndPassword(credentials)).thenAnswer(
@@ -44,7 +44,7 @@ main() {
 
         final result = await service.signInWithEmailAndPassword(credentials);
 
-        expect(result.returnedValue, isA<UserCredential>());
+        expect(result.value, isA<UserCredential>());
       });
 
       test("should return Failure if invalid credentials are provided",
@@ -57,7 +57,7 @@ main() {
         final result =
             await service.signInWithEmailAndPassword(invalidCredentials);
 
-        expect(result.returnedValue, isA<Failure>());
+        expect(result.value, isA<Failure>());
       });
     },
   );

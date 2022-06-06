@@ -12,44 +12,44 @@ abstract class Either<L, R> {
   bool get isLeft => this is Left<L, R>;
   bool get isRight => this is Right<L, R>;
 
-  Object get returnedValue;
+  Object get value;
 
   Z fold<Z>(Z Function(L) onLeft, Z Function(R) onRight);
 
   void either(Callback<L> fnL, Callback<R> fnR) {
     if (isLeft) {
       final Left<L, R> left = this as Left<L, R>;
-      return fnL(left.value);
+      return fnL(left.val);
     }
 
     if (isRight) {
       final Right<L, R> right = this as Right<L, R>;
-      return fnR(right.value);
+      return fnR(right.val);
     }
   }
 }
 
 // Failure
 class Left<L, R> extends Either<L, R> {
-  Left(this.value);
+  Left(this.val);
 
-  final L value;
-
-  @override
-  Object get returnedValue => value as Object;
+  final L val;
 
   @override
-  Z fold<Z>(Z Function(L) onLeft, Z Function(R) onRight) => onLeft(value);
+  Object get value => val as Object;
+
+  @override
+  Z fold<Z>(Z Function(L) onLeft, Z Function(R) onRight) => onLeft(val);
 }
 
 // Success
 class Right<L, R> extends Either<L, R> {
-  Right(this.value);
-  final R value;
+  Right(this.val);
+  final R val;
 
   @override
-  Object get returnedValue => value as Object;
+  Object get value => val as Object;
 
   @override
-  Z fold<Z>(Z Function(L) onLeft, Z Function(R) onRight) => onRight(value);
+  Z fold<Z>(Z Function(L) onLeft, Z Function(R) onRight) => onRight(val);
 }

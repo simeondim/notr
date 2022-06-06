@@ -31,7 +31,7 @@ main() {
     () async {
       final either = await errorHandler<bool>(() async => true);
 
-      expect(either.returnedValue, isTrue);
+      expect(either.value, isTrue);
     },
   );
 
@@ -45,7 +45,7 @@ main() {
         ],
       );
 
-      expect(either.returnedValue.runtimeType, UnknownFailure);
+      expect(either.value.runtimeType, UnknownFailure);
     },
   );
 
@@ -59,7 +59,7 @@ main() {
         ],
       );
 
-      expect(either.returnedValue.runtimeType, MockEmptyInput);
+      expect(either.value.runtimeType, MockEmptyInput);
     },
   );
 }
