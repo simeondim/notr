@@ -7,9 +7,16 @@ import 'package:notr/views/widgets/app_theme/app_theme.dart';
 import 'package:notr/views/widgets/authentication_layer/authentication_layer.dart';
 
 class AppSetup extends StatefulWidget {
-  const AppSetup({required this.configManager, super.key});
+  const AppSetup({
+    this.configManager = const ConfigurationManager(),
+    this.child,
+    this.useLocalEmulators = false,
+    super.key,
+  });
 
   final ConfigurationManager configManager;
+  final Widget? child;
+  final bool useLocalEmulators;
 
   @override
   State<AppSetup> createState() => _AppSetupState();
@@ -25,7 +32,9 @@ class _AppSetupState extends State<AppSetup> {
   }
 
   Future<void> _initializeApp() async {
-    await widget.configManager.initialize();
+    await widget.configManager.initialize(
+      useLocalEmulators: widget.useLocalEmulators,
+    );
     setState(() => _isLoading = false);
   }
 
@@ -33,18 +42,19 @@ class _AppSetupState extends State<AppSetup> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return const MaterialApp(
+        key: Key('loadingIndicator'),
         home: LoadingPage(),
       );
     }
 
     return MaterialApp(
-      key: const Key('mainMaterialApp'),
       debugShowCheckedModeBanner: false,
       theme: const AppTheme().getThemeData(),
-      home: const AuthenticationLayer(
-        unauthenticated: WelcomePage(),
-        authenticated: UserHomePage(),
-      ),
+      home: widget.child ??
+          const AuthenticationLayer(
+            unauthenticated: WelcomePage(key: Key('welcomePage')),
+            authenticated: UserHomePage(key: Key('homePage')),
+          ),
     );
   }
 }

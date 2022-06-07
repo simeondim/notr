@@ -37,7 +37,7 @@ class AuthenticationService {
     _authRepo.authStateChanges().listen(onAuthStateChanged).onError(
       (error, stack) {
         final err = FatalError(error, stack);
-        ApplicationErrorManager().handleError(err, stack);
+        const ApplicationErrorManager().handleError(err, stack);
       },
     );
   }

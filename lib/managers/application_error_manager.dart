@@ -6,13 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:notr/models/fatal_error.dart';
 
 class ApplicationErrorManager {
+  const ApplicationErrorManager();
   // TODO: Improve support for [FatalError]
   void handleError(Object error, StackTrace stack) {
     if (kDebugMode && !Platform.environment.containsKey('FLUTTER_TEST')) {
-      debugPrint('-------------------- ERROR LOG -----------------------');
-      debugPrint('ERROR: $error');
-      debugPrintStack(stackTrace: stack);
-      debugPrint('----------------------- END --------------------------');
+      logErrorToConsle(error, stack);
     }
 
     if (!kDebugMode) {
@@ -24,6 +22,13 @@ class ApplicationErrorManager {
     }
 
     if (error is FatalError) _exitApp();
+  }
+
+  void logErrorToConsle(Object error, StackTrace stack) {
+    debugPrint('-------------------- ERROR LOG -----------------------');
+    debugPrint('ERROR: $error');
+    debugPrintStack(stackTrace: stack);
+    debugPrint('----------------------- END --------------------------');
   }
 
 // TODO: Wipe app data before exiting.

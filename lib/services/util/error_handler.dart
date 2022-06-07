@@ -18,7 +18,7 @@ Future<Either<Failure, T>> errorHandler<T>(
       if (failure != null) return Left(failure);
     }
 
-    ApplicationErrorManager().handleError(error, stack);
+    const ApplicationErrorManager().handleError(error, stack);
     return Left(const Unknown());
   }
 }

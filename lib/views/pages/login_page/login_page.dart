@@ -44,6 +44,7 @@ class LoginPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 144),
                         child: TextField(
+                          key: const Key("emailTextField"),
                           controller: state.emailController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
@@ -62,6 +63,7 @@ class LoginPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 16),
                         child: TextField(
+                          key: const Key("passwordTextField"),
                           controller: state.passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
@@ -84,6 +86,7 @@ class LoginPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 16, bottom: 144),
                         child: ElevatedButton(
+                          key: const Key("loginButton"),
                           onPressed: () => _controller.login(
                             state,
                             () => Navigator.pop(context),

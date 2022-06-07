@@ -4,9 +4,9 @@
 
 import 'dart:async' as _i5;
 
-import 'package:firebase_core/firebase_core.dart' as _i2;
 import 'package:flutter/material.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:notr/managers/application_error_manager.dart' as _i2;
 import 'package:notr/managers/configuration_manager.dart' as _i3;
 
 // ignore_for_file: type=lint
@@ -19,7 +19,8 @@ import 'package:notr/managers/configuration_manager.dart' as _i3;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
-class _FakeFirebaseOptions_0 extends _i1.Fake implements _i2.FirebaseOptions {}
+class _FakeApplicationErrorManager_0 extends _i1.Fake
+    implements _i2.ApplicationErrorManager {}
 
 /// A class which mocks [ConfigurationManager].
 ///
@@ -31,18 +32,23 @@ class MockConfigurationManager extends _i1.Mock
   }
 
   @override
-  _i2.FirebaseOptions get firebaseOptions =>
-      (super.noSuchMethod(Invocation.getter(#firebaseOptions),
-          returnValue: _FakeFirebaseOptions_0()) as _i2.FirebaseOptions);
+  _i2.ApplicationErrorManager get errorManager =>
+      (super.noSuchMethod(Invocation.getter(#errorManager),
+              returnValue: _FakeApplicationErrorManager_0())
+          as _i2.ApplicationErrorManager);
   @override
   void startApp(_i4.Widget? widget) =>
       super.noSuchMethod(Invocation.method(#startApp, [widget]),
           returnValueForMissingStub: null);
   @override
-  _i5.Future<void> initialize({bool? enabledDataCollection = true}) =>
+  _i5.Future<void> initialize(
+          {bool? enabledDataCollection = true,
+          bool? useLocalEmulators = false}) =>
       (super.noSuchMethod(
-          Invocation.method(
-              #initialize, [], {#enabledDataCollection: enabledDataCollection}),
+          Invocation.method(#initialize, [], {
+            #enabledDataCollection: enabledDataCollection,
+            #useLocalEmulators: useLocalEmulators
+          }),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
 }

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -13,67 +15,52 @@ import 'package:notr/models/fatal_error.dart';
 /// configure error handling.
 /// [initialize] must be called before any other services.
 class ConfigurationManager {
-  static ConfigurationManager? _instance;
-
-  factory ConfigurationManager({
-    FirebaseOptions? firebaseOptions,
-    String? firebaseAppName,
-  }) {
-    return _instance ??= ConfigurationManager._(
-      firebaseOptions:
-          firebaseOptions ?? DefaultFirebaseOptions.currentPlatform,
-      firebaseAppName: firebaseAppName,
-    );
-  }
-
-  ConfigurationManager._({
-    required this.firebaseOptions,
+  const ConfigurationManager({
+    this.firebaseOptions,
     this.firebaseAppName,
   });
 
   final String? firebaseAppName;
-  final FirebaseOptions firebaseOptions;
-
-  bool _isInitialized = false;
+  final FirebaseOptions? firebaseOptions;
+  final errorManager = const ApplicationErrorManager();
 
   void startApp(Widget widget) {
     WidgetsFlutterBinding.ensureInitialized();
 
     runZonedGuarded(
       () => runApp(widget),
-      _handleError,
+      (error, stack) => errorManager.handleError(error, stack),
     );
-  }
-
-  void _handleError(Object error, StackTrace stack) {
-    if (!_isInitialized) {
-      debugPrint(
-        "App is not initialized. Call ConfigurationManager.initialize().",
-      );
-    }
-
-    ApplicationErrorManager().handleError(error, stack);
   }
 
   Future<void> initialize({
     bool enabledDataCollection = true,
+    bool useLocalEmulators = false,
   }) async {
     try {
       await Firebase.initializeApp(
         name: firebaseAppName,
-        options: firebaseOptions,
+        options: firebaseOptions ?? DefaultFirebaseOptions.currentPlatform,
       );
+
+      if (useLocalEmulators) _setupLocalEmulator();
 
       // Disable data collection in debug mode or user disables it.
       if (kDebugMode || !enabledDataCollection) {
         FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
       }
 
-      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-
-      _isInitialized = true;
+      if (!useLocalEmulators) {
+        FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+      }
     } catch (error, stack) {
+      errorManager.logErrorToConsle(error, stack);
       throw FatalError(error, stack);
     }
+  }
+
+  _setupLocalEmulator() {
+    FirebaseAuth.instance.useAuthEmulator("192.168.0.101", 9099);
+    FirebaseFirestore.instance.useFirestoreEmulator('192.168.0.101', 8080);
   }
 }
