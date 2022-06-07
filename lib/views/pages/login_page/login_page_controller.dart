@@ -55,6 +55,11 @@ class LoginPageController {
       return;
     }
 
+    if (failure is InvalidPassword && failure.subFailure is EmptyInput) {
+      state.passwordFieldErrorText = "Password cannot be empty";
+      return;
+    }
+
     state.unknownErrorMessage =
         "Ups! Something went wrong! Please try again later!";
   }

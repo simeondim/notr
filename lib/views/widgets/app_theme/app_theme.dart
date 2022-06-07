@@ -35,7 +35,6 @@ class _DarkColorTheme implements _ColorScheme {
   final primary = const Color(0xFF9BCAFF);
   final onPrimary = const Color(0x00003259);
   final background = const Color(0xFF1B1B1B);
-  final surface = const Color(0xFF1B1B1B);
 
   @override
   final mode = ThemeMode.dark;

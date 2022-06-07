@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:notr/views/pages/loading_page/loading_page.dart';
 import 'package:notr/views/pages/login_page/login_page_controller.dart';
 import 'package:notr/views/pages/login_page/login_page_state.dart';
+import 'package:notr/views/util/post_frame.dart';
+import 'package:notr/views/widgets/focus_remover/focus_remover.dart';
 import 'package:notr/views/widgets/width_constrained_box/width_constrained_box.dart';
 import 'package:provider/provider.dart';
 
@@ -17,18 +19,23 @@ class LoginPage extends StatelessWidget {
       child: Builder(builder: (context) {
         final state = context.watch<LoginPageState>();
 
-        if (state.isLoading) return const LoadingPage();
-
         if (state.unknownErrorMessage != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.unknownErrorMessage!)),
+          postFrame(
+            () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.unknownErrorMessage!)),
+              );
+              state.unknownErrorMessage = null;
+            },
           );
         }
 
+        if (state.isLoading) return const LoadingPage();
+
         return Scaffold(
           appBar: AppBar(),
-          body: Scaffold(
-            body: SingleChildScrollView(
+          body: FocusRemover(
+            child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: WidthConstrainedBox(

@@ -14,16 +14,13 @@ class WidthConstrainedBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: maxWidth, minWidth: minWidth),
-          child: Row(
-            children: [
-              Expanded(child: child),
-            ],
-          ),
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth, minWidth: minWidth),
+        child: Row(
+          children: [
+            Expanded(child: child),
+          ],
         ),
       ),
     );
