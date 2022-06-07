@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:notr/models/email_and_password_credentials.dart';
 import 'package:notr/models/failures/empty_input.dart';
 import 'package:notr/models/failures/failure.dart';
@@ -16,7 +17,7 @@ class LoginPageController {
 
   final AuthenticationService _authService;
 
-  Future<void> login(LoginPageState state) async {
+  Future<void> login(LoginPageState state, [VoidCallback? onSuccess]) async {
     final credentials = EmailAndPasswordCredentials(
       email: state.emailController.text,
       password: state.passwordController.text,
@@ -26,11 +27,9 @@ class LoginPageController {
     final result = await _authService.signInWithEmailAndPassword(credentials);
     state.isLoading = false;
 
-    // On success don't do anything. Authentication listener will update the
-    // UI accordingly.
     result.either(
       (failure) => _handleLoginFailure(failure, state),
-      (_) {},
+      (_) => onSuccess != null ? onSuccess() : null,
     );
   }
 

@@ -45,6 +45,7 @@ class LoginPage extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 144),
                         child: TextField(
                           controller: state.emailController,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             errorText: state.emailFieldErrorText,
                             labelText: "Email",
@@ -73,14 +74,20 @@ class LoginPage extends StatelessWidget {
                               state.passwordFieldErrorText = null;
                             }
                           },
-                          onSubmitted: (_) => _controller.login(state),
+                          onSubmitted: (_) => _controller.login(
+                            state,
+                            () => Navigator.pop(context),
+                          ),
                           textInputAction: TextInputAction.done,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 16, bottom: 144),
                         child: ElevatedButton(
-                          onPressed: () => _controller.login(state),
+                          onPressed: () => _controller.login(
+                            state,
+                            () => Navigator.pop(context),
+                          ),
                           child: const Padding(
                             padding: EdgeInsets.only(left: 12, right: 12),
                             child: Text("LOGIN"),

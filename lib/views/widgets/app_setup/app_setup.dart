@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:notr/managers/configuration_manager.dart';
 import 'package:notr/views/pages/loading_page/loading_page.dart';
+import 'package:notr/views/pages/user_home_page/user_home_page.dart';
 import 'package:notr/views/pages/welcome_page/welcome_page.dart';
 import 'package:notr/views/widgets/app_theme/app_theme.dart';
+import 'package:notr/views/widgets/authentication_layer/authentication_layer.dart';
 
 class AppSetup extends StatefulWidget {
   const AppSetup({required this.configManager, super.key});
@@ -39,7 +41,10 @@ class _AppSetupState extends State<AppSetup> {
       key: const Key('mainMaterialApp'),
       debugShowCheckedModeBanner: false,
       theme: const AppTheme().getThemeData(),
-      home: const WelcomePage(),
+      home: const AuthenticationLayer(
+        unauthenticated: WelcomePage(),
+        authenticated: UserHomePage(),
+      ),
     );
   }
 }
