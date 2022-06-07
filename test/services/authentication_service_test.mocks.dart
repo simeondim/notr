@@ -38,6 +38,10 @@ class MockAuthentiationRepository extends _i1.Mock
               returnValue:
                   Future<_i2.UserCredential>.value(_FakeUserCredential_0()))
           as _i4.Future<_i2.UserCredential>);
+  @override
+  _i4.Stream<_i2.User?> authStateChanges() =>
+      (super.noSuchMethod(Invocation.method(#authStateChanges, []),
+          returnValue: Stream<_i2.User?>.empty()) as _i4.Stream<_i2.User?>);
 }
 
 /// A class which mocks [UserCredential].

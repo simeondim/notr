@@ -42,4 +42,10 @@ class MockAuthenticationService extends _i1.Mock
                       Future<_i2.Either<_i5.Failure, _i6.UserCredential>>.value(
                           _FakeEither_0<_i5.Failure, _i6.UserCredential>()))
               as _i4.Future<_i2.Either<_i5.Failure, _i6.UserCredential>>);
+  @override
+  void listenForAuthStateChanges(
+          dynamic Function(_i6.User?)? onAuthStateChanged) =>
+      super.noSuchMethod(
+          Invocation.method(#listenForAuthStateChanges, [onAuthStateChanged]),
+          returnValueForMissingStub: null);
 }
