@@ -12,4 +12,8 @@ class AuthentiationRepository {
       password: credentials.password,
     );
   }
+
+  Stream<User?> authStateChanges() {
+    return FirebaseAuth.instance.authStateChanges();
+  }
 }

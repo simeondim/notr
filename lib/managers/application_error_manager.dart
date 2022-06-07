@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:notr/models/fatal_error.dart';
 
 class ApplicationErrorManager {
+  // TODO: Improve support for [FatalError]
   void handleError(Object error, StackTrace stack) {
     if (kDebugMode && !Platform.environment.containsKey('FLUTTER_TEST')) {
       debugPrint('-------------------- ERROR LOG -----------------------');
